@@ -15,12 +15,11 @@
             <div id="{{ mode }}_{{ attr_id|e }}" class="collapse {% if expanded %}in{% endif %}" {% if expanded %} aria-expanded="true" {% endif %}>
             <div class="values">
         {% endif %}
-        {% set value_name=mode~'['~attr_id~']['~attr.vvalue~']' %}
-        <div class="value product-layout-bordered {% if app.request.get(mode)[attr_id][attr.vvalue]|default(false) %} active {% endif %}">
-            <label for="{{ mode }}{{ attr.vvalue|e }}" >
+        {% set value_name=mode~'['~attr_id~']['~attr.vvid~']' %}
+        <div class="value product-layout-bordered {% if app.request.get(mode)[attr_id][attr.vvid]|default(false) %} active {% endif %} {% if mode=='chars' %} green {% endif %}">
+            <label for="{{ mode }}{{ attr.vvid|e }}" >
+                <input id="{{ mode }}{{ attr.vvid|e }}" type="checkbox" name="{{ value_name }}" class="filter-checkbox" {% if app.request.get(mode)[attr_id][attr.vvid]|default(false) %} checked {% endif %} >
                 <span class="value-title">{{ attr.vvalue|e }}</span>
-
-                <input id="{{ mode }}{{ attr.vvalue|e }}" type="checkbox" name="{{ value_name }}" class="filter-checkbox" {% if app.request.get(mode)[attr_id][attr.vvalue]|default(false) %} checked {% endif %} >
             </label>
         </div>
 

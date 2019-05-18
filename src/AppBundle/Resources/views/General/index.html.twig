@@ -13,7 +13,59 @@
 
 
 {% block body_content %}
-    <div class="page-header"><h1> пока нет ниечего</h1></div>
+    <div class="row section">
+        <div class="image-fon-main">
+
+        </div>
+        <div class="main-header text-center"><h1> Меню всегда найду</h1></div>
+    </div>
+    <div class="row section">
+        <h2>Автоматическое создание</h2>
+        <div class="col-xs-12">Плана питания на неделю</div>
+        <div class="col-xs-12">Это самый простой иэффективный способ организовать правильное питение для всей семьи.
+             С помощью нажатия всего одной кнопки вы получите уникльное мен питания с учетом
+             ваших вкусовых предпочтений, и все это за считанные секунды, прямо "онлайн"!!</div>
+        <div class="col-xs-12"><a href="{{ url('createmenu') }}" class="btn btn-warning">Сконструировать меню на неделю</a></div>
+    </div>
+
+    <div class="row section">
+        <h2>Наши преимущества</h2>
+        <div class="row">
+            <div class="col-xs-6 col-sm-4">
+                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
+                <div class="title">Больше свободного времени</div>
+                <div class="description">Больше не нужно составлять меню питания и списки покупок</div>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
+                <div class="title">Экономия времени</div>
+                <div class="description">Больше не нужно составлять меню питания и списки покупок</div>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
+                <div class="title">Отсутствие пищевых отходов</div>
+                <div class="description">Больше не нужно составлять меню питания и списки покупок</div>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
+                <div class="title">Учитываем остатки</div>
+                <div class="description">Помогаем испьзовать имеющиеся "в холодильнике" продукты</div>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
+                <div class="title">Используем ваши предпочтения</div>
+                <div class="description">Учитываем аллергены и особенности вашео питания</div>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
+                <div class="title">Готовые меню в один клик, быстро и просто</div>
+                <div class="description">Мы берем на себя заботу о вашем рационе питания</div>
+            </div>
+
+        </div>
+     </div>
+
+
 
 
 {% endblock %}

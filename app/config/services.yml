@@ -20,3 +20,7 @@ services:
     class: AppBundle\Extension\PriceExtension
     tags:
         - { name: twig.extension }
+  day_extension:
+    class: AppBundle\Extension\DayExtension
+    tags:
+        - { name: twig.extension }

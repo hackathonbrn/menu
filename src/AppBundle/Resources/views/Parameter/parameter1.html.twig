@@ -88,6 +88,16 @@
                 {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
             {% endif %}
         </div>
+        {% set errors = form.negative.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.negative, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.negative.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.negative, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>dd
             <hr>
             <em>Знаком <span class="text-danger">*</span> отмечены поля, обязательные для заполнения</em>
             <hr>

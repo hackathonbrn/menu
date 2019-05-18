@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -24,7 +25,7 @@ class Dish extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column(name = "description", type = "text")
+     * @ORM\Column(name = "description", type = "text", nullable=true)
      */
     protected $description;
 
@@ -201,6 +202,21 @@ class Dish extends AbstractEntity
     }
 
     /**
+     * @return ImageUpload
+     */
+    public function getMainPhoto()
+    {
+        $criteria = Criteria::create()->orderBy(array("main" => Criteria::DESC));
+        $photos=$this->photos->matching($criteria);
+        if (count($photos)>0) {
+             return $photos[0];
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
      * @return ImageUpload[]|ArrayCollection
      */
     public function getPhotos()
@@ -277,7 +293,6 @@ class Dish extends AbstractEntity
         $fat=0;
         $carbo=0;
         $count=0;
-
         foreach($this->getReciepts() as $reciept){
             $ingridient=$reciept->getIngridient();
             if ($reciept->isTaste()) {
@@ -304,6 +319,7 @@ class Dish extends AbstractEntity
             'count'=>$count,
         );
     }
+    
     
 
 }

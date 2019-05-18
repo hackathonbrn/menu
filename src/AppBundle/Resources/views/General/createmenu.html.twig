@@ -6,18 +6,21 @@
 
 {% block head_additions %}
 
-    <meta name="description" content="">
+    <meta name="description" content="" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 
 
 
 
 {% block body_content %}
-    <div class="page-header"><h1> Конфигуратор меню</h1></div>
+    <div class="image-fon-main">
+
+    </div>
+    <div class="page-header text-center text-white"><h1> Конфигуратор меню</h1></div>
     <!-- форма для ввод параметров -->
     <div class="row">
     <!--фильтр-->
-    <div class="col-lg-3 col-md-4 col-sm-12 no-paddings">
+    <div class="col-lg-3 col-md-4 col-sm-12">
         <form id="filter">
             {#<div class="filter-item">
                 <div class="caption" data-toggle="collapse" data-target="#price">
@@ -28,23 +31,134 @@
                     <div>
                         <div>
                             <div class="values range">
-                                <input id="price-range" name="price-range" type="text" class="span2" value="" data-slider-min="{{ view.prices.minprice|number_format(0,'','') }}" data-slider-max="{{ (view.prices.maxprice+1)|number_format(0,'','') }}" data-slider-step="1"
-                                       data-slider-value="{% if app.request.get('price-range') is not empty %}[{{ app.request.get('price-range') }}]{% else %}[{{ view.prices.minprice|number_format(0,'','') }},{{ (view.prices.maxprice+1)|number_format(0,'','') }}]{% endif %}"/>
+                                <input id="price-range" name="price-range" type="text" class="span2" value="" data-slider-min="0" data-slider-max="5000" data-slider-step="1"
+                                       data-slider-value="{% if app.request.get('price-range')|default(false) %}[{{ app.request.get('price-range') }}]{% else %}[0,5000]{% endif %}"/>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>#}
+            </div>
+#}
+            {# приемы пищи #}
+            {% if view.timeeats|default(false) is not empty %}
+                {% set mode='timeeat' %}
+                {% if app.request.get(mode) is not empty %} {% set expanded=true %}{% else %}{% set expanded=false %}{% endif %}
+                <div class="filter-item">
+                    <div class="caption" data-toggle="collapse" data-target="#{{ mode }}" {% if expanded %} aria-expanded="true" {% endif %}>
+                    <span class="text-left">Приемы пищи</span>
+                    <span class="symbol">{% if expanded %}—{% else %}+{% endif %}</span>
+                </div>
+                <div id="{{ mode }}" class="collapse {% if expanded %}in{% endif %}" {% if expanded %} aria-expanded="true" {% endif %}>
+                    <div class="values">
+                {% for timeeat in view.timeeats %}
+                    <div class="value product-layout-bordered {% if app.request.get(mode)[timeeat.id]|default(false) or expanded is same as(false) %} active  {% endif %} green">
+                        <label for="timeeat[{{ timeeat.id|e }}]" >
+                            <input id="timeeat[{{ timeeat.id|e }}]" type="checkbox" name="timeeat[{{ timeeat.id|e }}]" class="filter-checkbox" {% if app.request.get(mode)[timeeat.id]|default(false) or expanded is same as(false) %} checked {% endif %} >
+                            <span class="value-title">{{ timeeat.caption|e }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+
+            {# дни составления #}
+                {% set mode='days' %}
+                {% if app.request.get(mode) is not empty %} {% set expanded=true %}{% else %}{% set expanded=false %}{% endif %}
+                <div class="filter-item">
+                    <div class="caption" data-toggle="collapse" data-target="#{{ mode }}" {% if expanded %} aria-expanded="true" {% endif %}>
+                        <span class="text-left">Дни составления</span>
+                        <span class="symbol">{% if expanded %}—{% else %}+{% endif %}</span>
+                    </div>
+                    <div id="{{ mode }}" class="collapse {% if expanded %}in{% endif %}" {% if expanded %} aria-expanded="true" {% endif %}>
+                        <div class="values">
+                            {% for i in 1..7 %}
+                                <div class="value product-layout-bordered {% if app.request.get(mode)[i]|default(false) or expanded is same as(false) %} active green {% endif %}">
+                                    <label for="day[{{ i|e }}]" >
+                                        <input id="day[{{ i|e }}]" type="checkbox" name="day[{{ i|e }}]" class="filter-checkbox" {% if app.request.get(mode)[i]|default(false) or expanded is same as(false) %} checked {% endif %} >
+                                        <span class="value-title">{{ i|day }}</span>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
             {% include '@App/General/filter-list.html.twig' with {'items':view.params, 'mode':'attrs' } %}
+            {% include '@App/General/filter-list.html.twig' with {'items':view.chars, 'mode':'chars' } %}
             <div class="filter-item">
                 <button type="submit" id="filter_btn" class="btn btn-success btn-lg" style="width:100%;">Сформировать</button>
                 <button type="reset" id="filter_reset" class="btn btn-default btn-lg" style="width:100%;">Сбросить</button>
             </div>
         </form>
     </div>
+    <div class="col-lg-9 col-md-8 col-sm-12">
+        <ul class="nav nav-tabs">
+            {% for selectday in view.selecteddays %}
+                <li {% if loop.index==1 %}class="active"{% endif %}><a data-toggle="tab" class="day-tab" href="#daypanel{{ selectday|e }}" >{{ selectday|day }}</a></li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
 
-    <div class="row"></div>
+
+
+            {% for selectday in view.selecteddays %}
+                <div id="daypanel{{ selectday|e }}" class="tab-pane fade {% if loop.index==1 %}in active{% endif %}">
+                    {% for selecttimeeat in view.selecttimeeats %}
+                    <div class="daymenu">
+                        <div class="row">
+                            <div class="oneeat">
+                                <div class="col-xs-3 timeeat-outer"><div class="timeeat">{{ selecttimeeat.caption|e }}</div></div>
+                                {% if view.dishes|default(false) %}
+                                    <div class="col-xs-9 dishes">
+                                        <div  class="row owl-carousel owl-theme" id="carousel{{ selectday|e }}-{{ selecttimeeat.id|e }}" data-startposition="{{ selectday|e }}">
+                                            {% set i=1 %}
+                                            {% for dish in view.dishes[selecttimeeat.id] %}
+                                                    <div class="item "  >
+                                                        <div class="row row-flex dish ">
+                                                            <div class="col-xs-12 col-sm-6">
+                                                                <div class="imagedish"><img src="{% include '@App/General/mainimage.html.twig' with {'dish':dish} %}"></div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-6">
+                                                                <div class="titledish"><h3>{{ dish.caption|e }}</h3></div>
+                                                                <div class="desciptiondish">
+                                                                    <p>Каллорий:{{ dish.chars.cal|e }}</p>
+                                                                </div>
+                                                                <div class="buttons"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% set i=i+1 %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $('#carousel{{ selectday|e }}-{{ selecttimeeat.id|e }}').owlCarousel({
+                                            nav:true,
+                                            dots:false,
+                                            startPosition:{{ (selectday-1)|e }},
+                                            navText:['<span class="glyphicon glyphicon-chevron-left"></span>','<span class="glyphicon glyphicon-chevron-right"></span>'],
+                                            responsive:{0:{items:1}}
+                                        });
+                                    </script>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+
+    </div>
 
 
 <script>
@@ -75,6 +189,9 @@
         }
         onChangeFilter($(this));
     });
+
+
+
 
 </script>
 

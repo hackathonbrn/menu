@@ -62,6 +62,12 @@ class Parameter extends AbstractEntity
     protected $visible;
 
     /**
+     * @var boolean
+     * @ORM\Column(name = "negative", type = "boolean")
+     */
+    protected $negative;
+
+    /**
      * @var string
      * @ORM\Column(name = "visiblecaption", type = "string", nullable=true)
      */
@@ -74,6 +80,7 @@ class Parameter extends AbstractEntity
         $this->foringridient = true;
         $this->active=true;
         $this->visible = true;
+        $this->negative=false;
     }
 
     /**
@@ -202,6 +209,22 @@ class Parameter extends AbstractEntity
     public function setVisible($visible)
     {
         $this->visible = $visible;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNegative()
+    {
+        return $this->negative;
+    }
+
+    /**
+     * @param boolean $negative
+     */
+    public function setNegative($negative)
+    {
+        $this->negative = $negative;
     }
 
 
