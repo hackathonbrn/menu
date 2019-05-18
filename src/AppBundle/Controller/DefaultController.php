@@ -34,12 +34,14 @@ class DefaultController extends InitializableController
 
         //характеристики, которые надо отображать в фильтре
         $params=$this->getRepository('Parameter')->createQueryBuilder('p')
-            ->select('p.id', 'p.caption as name')
+            ->select('p.id', 'p.visiblecaption as name')
             ->addSelect('pv.value as vvalue')
             ->leftJoin('p.values','pv' )
             ->where('p.active = true')
+            ->andWhere('p.visible = true')
             ->groupBy('p, vvalue')
-            ->orderBy('p.caption')
+            ->orderBy('p.priority', 'DESC')
+            ->addOrderBy('p.visiblecaption')
             ->addOrderBy('vvalue')
             ->getQuery()->getResult();
 

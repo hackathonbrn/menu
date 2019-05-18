@@ -71,7 +71,9 @@ class ParamController extends InitializableController
                 $form = $this->createForm(new ParameterFormType(), $parameter);
                 $form->handleRequest($this->request);
                 if ($form->isSubmitted() && $form->isValid()) {
-
+                    if ($parameter->getVisiblecaption()=='') {
+                        $parameter->setVisiblecaption($parameter->getCaption());
+                    }
                     $this->manager->persist($parameter);
                     $this->manager->flush();
 

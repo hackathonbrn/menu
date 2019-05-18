@@ -54,12 +54,26 @@ class Parameter extends AbstractEntity
      */
     protected $active;
 
+
+    /**
+     * @var boolean
+     * @ORM\Column(name = "visible", type = "boolean")
+     */
+    protected $visible;
+
+    /**
+     * @var string
+     * @ORM\Column(name = "visiblecaption", type = "string", nullable=true)
+     */
+    protected $visiblecaption;
+
     public function __construct()
     {
         parent::__construct();
         $this->fordish = true;
         $this->foringridient = true;
         $this->active=true;
+        $this->visible = true;
     }
 
     /**
@@ -156,6 +170,38 @@ class Parameter extends AbstractEntity
     public function setActive($active)
     {
         $this->active = $active;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVisiblecaption()
+    {
+        return $this->visiblecaption;
+    }
+
+    /**
+     * @param string $visiblecaption
+     */
+    public function setVisiblecaption($visiblecaption)
+    {
+        $this->visiblecaption = $visiblecaption;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVisible()
+    {
+        return $this->visible;
+    }
+
+    /**
+     * @param boolean $visible
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
     }
 
 

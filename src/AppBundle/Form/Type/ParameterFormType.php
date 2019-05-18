@@ -19,6 +19,8 @@ class ParameterFormType extends AbstractEntityFormType
             ->add('priority', 'Symfony\Component\Form\Extension\Core\Type\IntegerType', array('label' => 'Приоритет показов', 'required' => false))
             ->add('fordish', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType', array('label' => 'Для блюд', 'required' => false))
             ->add('foringridient', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType', array('label' => 'Для ингридиентов', 'required' => false))
-            ->add('active', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType', array('label' => 'Активна?', 'required' => false));
+            ->add('active', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType', array('label' => 'Активна?', 'required' => false))
+            ->add('visible', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType', array('label' => 'Отображать на форме подбора?', 'required' => false))
+            ->add('visiblecaptin', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('label' => 'Отображаемый текст на фильтре', 'required' => false));
     }
 } 
