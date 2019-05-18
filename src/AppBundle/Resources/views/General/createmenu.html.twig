@@ -1,0 +1,81 @@
+{% extends 'AppBundle::sitelayout.html.twig' %}
+
+{% block head_title %}
+
+{% endblock %}
+
+{% block head_additions %}
+
+    <meta name="description" content="">
+{% endblock %}
+
+
+
+
+{% block body_content %}
+    <div class="page-header"><h1> Конфигуратор меню</h1></div>
+    <!-- форма для ввод параметров -->
+    <div class="row">
+    <!--фильтр-->
+    <div class="col-lg-3 col-md-4 col-sm-12 no-paddings">
+        <form id="filter">
+            {#<div class="filter-item">
+                <div class="caption" data-toggle="collapse" data-target="#price">
+                    <span class="text-left">Цена в день</span>
+                    <span class="symbol">—</span>
+                </div>
+                <div id="price" class="collapse in">
+                    <div>
+                        <div>
+                            <div class="values range">
+                                <input id="price-range" name="price-range" type="text" class="span2" value="" data-slider-min="{{ view.prices.minprice|number_format(0,'','') }}" data-slider-max="{{ (view.prices.maxprice+1)|number_format(0,'','') }}" data-slider-step="1"
+                                       data-slider-value="{% if app.request.get('price-range') is not empty %}[{{ app.request.get('price-range') }}]{% else %}[{{ view.prices.minprice|number_format(0,'','') }},{{ (view.prices.maxprice+1)|number_format(0,'','') }}]{% endif %}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>#}
+            {% include '@App/General/filter-list.html.twig' with {'items':view.params, 'mode':'attrs' } %}
+            <div class="filter-item">
+                <button type="submit" id="filter_btn" class="btn btn-success btn-lg" style="width:100%;">Сформировать</button>
+                <button type="reset" id="filter_reset" class="btn btn-default btn-lg" style="width:100%;">Сбросить</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row"></div>
+
+
+<script>
+
+    $("#filter_reset").on('click', function(e){
+        $(this).parent().parent().find('div').removeClass('active');
+        $('#price-range').slider('refresh', { useCurrentValue: true });
+        onChangeFilter(null);
+    });
+
+
+
+    $('.filter-item .collapse').on('show.bs.collapse', function () {
+        $(this).parent().children().first().children().last().text('—');
+    });
+
+    $('.filter-item .collapse').on('hidden.bs.collapse', function () {
+        $(this).parent().children().first().children().last().text('+');
+    });
+
+    $('.filter-checkbox').change(function(){
+        var checked = $(this).is(':checked');
+        if(checked) {
+            $(this).parent().parent().addClass('active');
+        }
+        else {
+            $(this).parent().parent().removeClass('active');
+        }
+        onChangeFilter($(this));
+    });
+
+</script>
+
+{% endblock %}

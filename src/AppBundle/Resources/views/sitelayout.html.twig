@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru-RU">
 <head>
-    <title>{% block head_title %}{% endblock %} Файловый архив files.student-it.ru </title>
+    <title>{% block head_title %}{% endblock %} #Чёпохавать </title>
     {% block head_meta %}
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +9,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jumbotron.css') }}" />
     {% block head_link %}
 
@@ -26,14 +27,14 @@
 </head>
 
 <body>
-{% include 'AppBundle::panel.html.twig' %}
+{% include 'AppBundle::sitepanel.html.twig' %}
 <div class="container">
     <div id="content">
         {% block body_content %}{% endblock %}
     </div>
 </div>
 
-{% include 'AppBundle::footer.html.twig' %}
+{#{% include 'AppBundle::footer.html.twig' %}#}
 
 {% block body_additions %}{% endblock %}
 

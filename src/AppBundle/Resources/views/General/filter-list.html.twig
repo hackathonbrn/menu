@@ -1,0 +1,30 @@
+
+
+{% if items|length >0 %}
+    {% set attr_id=0 %}
+    {% for attr in items %}
+        {% if attr.id!=attr_id %}
+            {% set attr_id=attr.id %}
+            {% if app.request.get(mode)[attr_id]|default(false) %} {% set expanded=true %}{% else %}{% set expanded=false %}{% endif %}
+            {% if loop.index>1 %}</div></div></div>{% endif %}
+            <div class="filter-item">
+            <div class="caption" data-toggle="collapse" data-target="#{{ mode }}_{{ attr_id|e }}" {% if expanded %} aria-expanded="true" {% endif %}>
+                <span class="text-left">{{ attr.name|e }}</span>
+                <span class="symbol">{% if expanded %}—{% else %}+{% endif %}</span>
+            </div>
+            <div id="{{ mode }}_{{ attr_id|e }}" class="collapse {% if expanded %}in{% endif %}" {% if expanded %} aria-expanded="true" {% endif %}>
+            <div class="values">
+        {% endif %}
+        {% set value_name=mode~'['~attr_id~']['~attr.vvalue~']' %}
+        <div class="value product-layout-bordered {% if app.request.get(mode)[attr_id][attr.vvalue]|default(false) %} active {% endif %}">
+            <label for="{{ mode }}{{ attr.vvalue|e }}" >
+                <span class="value-title">{{ attr.vvalue|e }}</span>
+
+                <input id="{{ mode }}{{ attr.vvalue|e }}" type="checkbox" name="{{ value_name }}" class="filter-checkbox" {% if app.request.get(mode)[attr_id][attr.vvalue]|default(false) %} checked {% endif %} >
+            </label>
+        </div>
+
+
+    {% endfor %}
+    </div></div></div>
+{% endif %}
