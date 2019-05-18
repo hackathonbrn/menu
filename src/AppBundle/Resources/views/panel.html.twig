@@ -1,0 +1,28 @@
+<!-- Yandex.Metrika counter -->
+
+
+<div class="navbar navbar-inverse header" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Переключить навигацию</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url('homepage') }}">#чёпохавать?</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" style="height: 1px;">
+            {% if app.user %}
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="{{ url('site_security_profile') }}" title="Управление профилем"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ app.user.userfio|e }}</a></li>
+                    <li><a href="{{ url('site_security_logout') }}" title="Выход с сайта"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Выйти</a></li>
+                </ul>
+            {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url('site_security_login') }}" title="Загрузить свой файл"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Войти</a></li>
+                    <li><a href="{{ url('requestconsultation') }}" title="Обратная связь"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Связаться с нами</a></li>
+                </ul>
+        </div>
+    </div>
+</div>

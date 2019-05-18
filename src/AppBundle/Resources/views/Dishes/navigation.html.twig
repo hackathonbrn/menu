@@ -1,0 +1,26 @@
+<ul class="nav nav-tabs">
+    {% if _step is not defined %}{% set _step = step %}{% endif %}
+    {% if dish is not empty %}
+        {% if _step == 1 %}<li class="active"><a href="javascript:void(0);">Общие данные</a></li>
+        {% else %}<li><a href="{{ url('admin_dishes_edit', {'dish': dish.id, 'step': 1}) }}">Общие данные</a></li>
+        {% endif %}
+        {% if _step == 2 %}<li class="active"><a href="javascript:void(0);">Фотографии</a></li>
+        {% else %}<li><a href="{{ url('admin_dishes_edit', {'dish': dish.id, 'step': 2}) }}">Фотки</a></li>
+        {% endif %}
+        {% if _step == 3 %}<li class="active"><a href="javascript:void(0);">Характеристики</a></li>
+        {% else %}<li><a href="{{ url('admin_dishes_edit', {'dish': dish.id, 'step': 3}) }}">Характеристики</a></li>
+        {% endif %}
+        {% if _step == 4 %}<li class="active"><a href="javascript:void(0);">Отзывы</a></li>
+        {% else %}<li><a href="{{ url('admin_dishes_edit', {'dish': dish.id, 'step': 4}) }}">Отзывы</a></li>
+        {% endif %}
+        {% if _step == 5 %}<li class="active"><a href="javascript:void(0);">Ингридиенты</a></li>
+        {% else %}<li><a href="{{ url('admin_dishes_edit', {'dish': dish.id, 'step': 5}) }}">Ингридиенты</a></li>
+        {% endif %}
+    {% else %}
+        <li class="active"><a href="javascript:void(0);">Общие данные</a></li>
+        <li class="disabled"><a href="javascript:void(0);">Фотки</a></li>
+        <li class="disabled"><a href="javascript:void(0);">Характеристики</a></li>
+        <li class="disabled"><a href="javascript:void(0);">Отзывы</a></li>
+        <li class="disabled"><a href="javascript:void(0);">Ингридиенты</a></li>
+    {% endif %}
+</ul>

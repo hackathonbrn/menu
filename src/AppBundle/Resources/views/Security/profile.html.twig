@@ -1,0 +1,63 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block head_title %}Профиль{% endblock %}
+
+{% block body_content %}
+    <h1 class="page-header">Профиль</h1>
+    <div class="body">
+        {% set form = forms.profile %}
+		{{ form_start(form) }}
+            {% set _errors = form.userfio.vars.errors %}
+            {% set _class = 'form-group' ~ (_errors|length > 0 ? ' has-error' : '') %}
+            <div class="{{ _class }}">
+                {{ form_label(form.userfio, null, {'label_attr': {'class': 'control-label'}}) }} <span class="required">*</span>
+                {{ form_widget(form.userfio, {'attr': {'class': 'form-control'}}) }}
+                {% if _errors|length > 0 %}{% for _error in _errors %}<span class="help-block">{{ _error.message|e }}</span>{% endfor %}{% endif %}
+            </div>
+            {% set _errors = form.username.vars.errors %}
+            {% set _class = 'form-group' ~ (_errors|length > 0 ? ' has-error' : '') %}
+            <div class="{{ _class }}">
+                {{ form_label(form.username, null, {'label_attr': {'class': 'control-label'}}) }} <span class="required">*</span>
+                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                {% if _errors|length > 0 %}{% for _error in _errors %}<span class="help-block">{{ _error.message|e }}</span>{% endfor %}{% endif %}
+            </div>
+            {% set _errors = form.email.vars.errors %}
+            {% set _class = 'form-group' ~ (_errors|length > 0 ? ' has-error' : '') %}
+            <div class="{{ _class }}">
+                {{ form_label(form.email, null, {'label_attr': {'class': 'control-label'}}) }} <span class="required">*</span>
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                {% if _errors|length > 0 %}{% for _error in _errors %}<span class="help-block">{{ _error.message|e }}</span>{% endfor %}{% endif %}
+            </div>
+            {% set _errors = form.phone.vars.errors %}
+            {% set _class = 'form-group' ~ (_errors|length > 0 ? ' has-error' : '') %}
+            <div class="{{ _class }}">
+                {{ form_label(form.phone, null, {'label_attr': {'class': 'control-label'}}) }} <span class="required">*</span>
+                {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+                {% if _errors|length > 0 %}{% for _error in _errors %}<span class="help-block">{{ _error.message|e }}</span>{% endfor %}{% endif %}
+            </div>
+            {% set _errors = form.password.first.vars.errors %}
+            {% set _class = 'form-group' ~ (_errors|length > 0 ? ' has-error' : '') %}
+            <div class="{{ _class }}">
+                {{ form_label(form.password.first, null, {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.password.first, {'attr': {'class': 'form-control'}}) }}
+                {% if _errors|length > 0 %}{% for _error in _errors %}<span class="help-block">{{ _error.message|e }}</span>{% endfor %}{% endif %}
+            </div>
+            {% set _errors = form.password.second.vars.errors %}
+            {% set _class = 'form-group' ~ (_errors|length > 0 ? ' has-error' : '') %}
+            <div class="{{ _class }}">
+                {{ form_label(form.password.second, null, {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.password.second, {'attr': {'class': 'form-control'}}) }}
+                {% if _errors|length > 0 %}{% for _error in _errors %}<span class="help-block">{{ _error.message|e }}</span>{% endfor %}{% endif %}
+            </div>
+            <hr>
+            <p>Знаком <span class="required">*</span> помечены поля, обязательные для заполнения.</p>
+            <hr>
+            <a href="{{ url('homepage') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Отмена
+            </a>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Сохранить изменения
+            </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

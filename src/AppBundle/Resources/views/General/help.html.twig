@@ -1,0 +1,25 @@
+{% extends 'AppBundle::sitelayout.html.twig' %}
+
+{% block head_title %}Помощь по сервису продажи готовых студенческих работ{% endblock %}
+
+{% block body_content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Помощь по работе с магазином готовых работ</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <h4>Список материалов:</h4>
+                <div class="btn-group-vertical">
+                    {% for article in view.articles %}
+                        <a class="btn btn-default btn-sm" href="{{ url('onearticle', {'article':article.alias}) }}">{{ article.caption|e }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <p>Для получения информации по интересующему Вас вопросу нажмите нужную кнопку в списке слева.
+                    Если Вы не нашли ответа на свой вопрос, то можете задать его на почту: <a href="mailto:info@student-it.ru">info@student-it.ru</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

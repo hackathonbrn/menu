@@ -1,0 +1,42 @@
+{% extends 'AppBundle::sitelayout.html.twig' %}
+{% set article=view.article %}
+
+{% block head_title %}{% if article.title is not empty %}{{ article.title|e }}{% else %} {{ article.caption|e }}{% endif %}{% endblock %}
+
+{% block head_additions %}
+    {% if article.keywords is not empty %}
+        <meta name="keywords" content="{{ article.keywords|e }}">
+    {% endif %}
+    {% if article.description is not empty %}
+        <meta name="description" content="{{ article.keywords|e }}">
+    {% endif %}
+{% endblock %}
+
+
+{% block body_content %}
+
+    <div class="container">
+        <div class="page-header">
+            <h1>{% if article.h1 is not empty %}{{ article.h1|e }}{% else %} {{ article.caption|e }}{% endif %}</h1>
+        </div>
+        <div class="row">
+            {% if article.help %}
+            <div class="col-sm-3">
+                <h4>Список материалов:</h4>
+                <div class="btn-group-vertical">
+                    {% for helparticle in view.articles %}
+                        <a class="btn btn-default btn-sm {% if helparticle.id==article.id %} active {% endif %}"  href="{{ url('onearticle', {'article':helparticle.alias|e}) }}">{{ helparticle.caption|e }}</a>
+                        {% else %}
+                        <p>Пока материалов нет</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-sm-9">
+            {% else %}
+            <div class="col-sm-12">
+            {% endif %}
+                <p>{{ article.texts|raw }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

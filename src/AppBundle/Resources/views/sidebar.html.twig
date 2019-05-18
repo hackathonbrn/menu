@@ -1,0 +1,12 @@
+<ul class="nav nav-sidebar">
+    {% if not app.user %}
+        <li{% if navigation.active == 'login' %} class="active"{% endif %}><a href="{{ url('site_security_login') }}">Авторизация</a></li>
+    {% else %}
+        <li{% if navigation.active == 'reviews' %} class="active"{% endif %}><a href="#">Комменты</a></li>
+        <li{% if navigation.active == 'dishes' %} class="active"{% endif %}><a href="{{ url('admin_dishes_index') }}">Блюда</a></li>
+        <li{% if navigation.active == 'parameters' %} class="active"{% endif %}><a href="{{ url('admin_parameters_index') }}">Параметры</a></li>
+        <li{% if navigation.active == 'ingridients' %} class="active"{% endif %}><a href="{{ url('admin_ingridients_index') }}">Ингридиенты</a></li>
+        <li{% if navigation.active == 'users' %} class="active"{% endif %}><a href="{{ url('site_users_index') }}">Пользователи</a></li>
+        <hr>
+    {% endif %}
+</ul>

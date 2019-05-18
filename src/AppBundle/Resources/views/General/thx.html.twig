@@ -1,0 +1,14 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block head_title %}Спасибо за вопрос!{% endblock %}
+
+
+{% block body_content %}
+
+    <h1 class="page-header">Ваше обращение получено</h1>
+    <div class="row">
+    <div class="body">
+        <p>Спасибо за ваше обращение, в ближайшее время Вы получите ответ на свой вопрос на указанную в запросе почту.  </p>
+        <a title="Главная" href="{{ url('homepage') }}"> На главную</a>
+    </div>
+    </div>{% endblock %}

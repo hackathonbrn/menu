@@ -1,0 +1,102 @@
+{% extends 'AppBundle::layout.html.twig' %}
+{% set dish=view.dish %}
+{% set step=1 %}
+
+{% block head_title %}{% if dish is not empty %}{{ dish.caption|e }} - Основные данные{% else %}Новое блюдо{% endif %}{% endblock %}
+
+
+{% block head_additions %}
+    <style>
+        .roles { border: 1px solid #eee; border-radius: 4px; padding: 0 5px; }
+        .page {max-width: 700px;}
+
+
+    </style>
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+{% endblock %}
+
+{% block body_content %}
+
+        {% include 'AppBundle:Dishes:header.html.twig' %}
+        {% include 'AppBundle:Dishes:navigation.html.twig' %}
+    <div class="page">
+        {% set form = forms.dish %}
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+        {% set errors = form.caption.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.caption, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.caption.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.caption, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.description.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.description, null, {'label_attr': {'class': 'tinymce'}}) }}
+            {% if form.description.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.timecook.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.timecook, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.timecook.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.timecook, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.timeeats.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.timeeats, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.timeeats.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.timeeats, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.active.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.active, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.active.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.active, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+            <hr>
+            <em>Знаком <span class="text-danger">*</span> отмечены поля, обязательные для заполнения</em>
+            <hr>
+            <a href="{{ url('admin_dishes_index') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Назад
+            </a>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Сохранить изменения
+            </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block body_additions %}
+    <script>
+    tinymce.init({
+        selector: "#{{ forms.dish.description.vars.id }}",
+        theme: "modern",
+        language: "ru",
+        height: "200px",
+        plugins: ["jbimages","advlist", "autosave", "code", "textcolor", "link"],
+//            valid_elements: "p,ol,ul,li,strong/b,i,u,span,sub,sup,code,blockquote"
+  //      invalid_elements: "script",
+        theme_advanced_buttons1 : "jbimages",
+        relative_urls : false
+    });
+</script>
+{% endblock %}

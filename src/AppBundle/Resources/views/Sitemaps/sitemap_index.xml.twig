@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <sitemap>{# check if hostname is not alreay in url#}
+            <loc>{{ url('main_sitemap',{'_format':'xml'}) }}</loc>
+        </sitemap>
+    {% for url in urls %}
+        <sitemap>{# check if hostname is not alreay in url#}
+            <loc>{{url.loc}}</loc>
+        </sitemap>
+    {% endfor %}
+</sitemapindex>

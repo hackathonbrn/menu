@@ -1,0 +1,28 @@
+general:
+  resource: "@AppBundle/Controller/DefaultController.php"
+  prefix: /
+  type: annotation
+security:
+  resource: "@AppBundle/Controller/SecurityController.php"
+  prefix: /
+  type: annotation
+admin:
+  resource: "@AppBundle/Controller/DefaultAdminController.php"
+  prefix: /admin
+  type: annotation
+users:
+  resource: "@AppBundle/Controller/UsersController.php"
+  prefix: /admin
+  type: annotation
+dishes:
+  resource: "@AppBundle/Controller/DishController.php"
+  prefix: /admin
+  type: annotation
+params:
+  resource: "@AppBundle/Controller/ParamController.php"
+  prefix: /admin
+  type: annotation
+ingridients:
+  resource: "@AppBundle/Controller/IngridientController.php"
+  prefix: /admin
+  type: annotation

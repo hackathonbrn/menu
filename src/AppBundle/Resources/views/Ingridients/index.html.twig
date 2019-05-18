@@ -1,0 +1,93 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block head_title %}Список ингридиентов{% endblock %}
+
+{% block head_additions %}
+{% endblock %}
+
+
+{% block body_content %}
+        <div class="page-header"><h1>Ингридиенты</h1></div>
+        {% set form = forms.filter %}
+        {{ form_start(form, {'attr': {'class': 'form-full'}}) }}
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    {{ form_label(form.caption, null, {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_widget(form.caption, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+                </td>
+                <td>
+                </td>
+
+                <td width="200px">
+                    <button type="submit" class="btn btn-success" style="min-width: 170px;">
+                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Применить Фильтр
+                    </button>
+                    <a href="{{ url('admin_ingridients_index') }}" class="btn btn-default" style="margin-top:5px;width: 170px;">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Сбросить Фильтр
+                    </a>
+                </td>
+
+            </tr>
+
+        </table>
+        {{ form_end(form) }}
+        <p>
+            <a href="{{ url('admin_ingridients_add') }}" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить ингридиент
+            </a>
+        </p>
+
+
+    {% include 'AppBundle:Ingridients:pagination.html.twig' %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Калорий</th>
+                <th>Белков</th>
+                <th>Жиров</th>
+                <th>Углеводов</th>
+                <th>Стоимость за 100г.</th>
+                <th>Состояние</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ingridient in view.ingridients %}
+                <tr>
+
+                    <td>
+                        <a href="{{ url('admin_ingridients_edit', {'ingridient': ingridient.id}) }}">
+                            {{ ingridient.caption|e }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ ingridient.cal|e }}
+                    </td>
+                    <td>
+                        {{ ingridient.protein|e }}
+                    </td>
+                    <td>
+                        {{ ingridient.fat|e }}
+                    </td>
+                    <td>
+                        {{ ingridient.carbo|e }}
+                    </td>
+                    <td>
+                        {{ ingridient.price|price }}
+                    </td>
+                    <td>
+                        {% if ingridient.active %}
+                        Опубликован
+                            <a class="btn btn-clear" href="{{ url('admin_ingridients_unpublsh', {'ingridient':ingridient.id}) }}">Скрыть</a>
+                        {% else %}
+                        Не опубликован <a class="btn btn-clear" href="{{ url('admin_ingridients_publsh', {'ingridient':ingridient.id}) }}">Опубликовать</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include 'AppBundle:Ingridients:pagination.html.twig' %}
+
+{% endblock %}

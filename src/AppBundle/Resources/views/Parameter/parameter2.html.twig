@@ -1,0 +1,91 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% set step=2 %}
+{% set parameter = view.parameter %}
+{% block head_title %}Характеристика{% endblock %}
+
+
+{% block head_additions %}
+{% endblock %}
+
+
+{% block body_content %}
+    <div class="page">
+        {% include 'AppBundle:Parameter:header.html.twig' %}
+        {% include 'AppBundle:Parameter:navigation.html.twig' %}
+        {% set form = forms.parameter %}
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+        {% set prototype = form.values.vars.prototype %}
+        {% set prototype_source = '
+        <div class="row photo-item">
+            <div class="col-xs-5 form-inline">' ~
+            form_label(prototype.value) ~ ' ' ~ form_widget(prototype.value, {'attr': {'class': 'form-control'}}) ~
+            '</div>
+            <div class="col-xs-5 form-inline">' ~
+            form_label(prototype.active) ~ ' '  ~ form_widget(prototype.active, {'attr': {'class': 'form-control'}}) ~
+            '</div>
+             <div class="col-xs-1 form-inline">
+            <a href="javascript:void();" class="delete-photo" title="Удалить" ></a>
+            </div>
+        </div>'
+        %}
+        <div id="photos" data-prototype="{{ prototype_source|e }}">
+            {{ form_label(form.values) }}
+            {% for value in form.values %}
+                <div class="form-group">
+                    <div class="row photo-item">
+                        <div class="col-xs-5 form-inline">
+                            {{ form_label(value.value) }}
+                            {{ form_widget(value.value, {'attr': {'class': 'form-control'}} )}}
+
+                        </div>
+                        <div class="col-xs-5 form-inline">
+                            {{ form_label(value.active) }}
+                            {{ form_widget(value.active, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-xs-1 form-inline">
+                            <a href="javascript:void(0);" class="delete-photo" title="Удалить" ></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+            <span class="help-block">
+                <a href="javascript:void(0);" id="add-photo">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Добавить еще значение
+                </a>
+            </span>
+
+            <hr>
+            <em>Знаком <span class="text-danger">*</span> отмечены поля, обязательные для заполнения</em>
+            <hr>
+            <a href="{{ url('admin_parameters_index') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Назад
+            </a>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Сохранить изменения
+            </button>
+        {{ form_end(form) }}
+
+{% endblock %}
+
+{% block body_additions %}
+    {% set form = forms.parameter %}
+    <script>
+        $(document).ready(function() {
+            var photos_count = {{ form.values|length }};
+            $('#add-photo').click(function () {
+                var photos = $('#photos');
+                $('<div class="form-group"></div>').html(
+                        photos.attr('data-prototype').replace(/__name__/g, photos_count)
+                ).appendTo(photos);
+                photos_count++;
+            });
+            $(".delete-photo").click(
+                    function () {
+                        $(this).parent().parent().remove();
+                        photos_count--;
+                    })
+        })
+    </script>
+{% endblock %}

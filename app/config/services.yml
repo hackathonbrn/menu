@@ -1,0 +1,22 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+  zakup.controller_listener:
+    class: AppBundle\EventListener\ControllerListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+  onconnect.listener:
+    class: AppBundle\EventListener\OnConnect
+    tags:
+      - { name: doctrine.event_listener, event: postConnect }
+  russian_date_extension:
+    class: AppBundle\Extension\RussianDateExtension
+    tags:
+        - { name: twig.extension }
+  price_extension:
+    class: AppBundle\Extension\PriceExtension
+    tags:
+        - { name: twig.extension }

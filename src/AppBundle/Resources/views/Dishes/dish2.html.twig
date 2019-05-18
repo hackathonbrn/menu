@@ -1,0 +1,117 @@
+{% extends 'AppBundle::layout.html.twig' %}
+{% set dish=view.dish %}
+{% set step=2 %}
+{% block head_title %}{% if dish is not empty %}{{ dish.caption|e }} - Фотографии{% endif %}{% endblock %}
+
+
+{% block head_additions %}
+    <style>
+        .roles { border: 1px solid #eee; border-radius: 4px; padding: 0 5px; }
+        .page {max-width: 700px;}
+        #photo-gallery li { padding: 0 5px 10px 5px; position: relative; }
+        #photo-gallery a.delete { background: url('{{ asset('images/cancel.png') }}') no-repeat transparent; display: none; height: 16px; position: absolute; right: 5px; top: 5px; width: 16px; }
+        #photo-gallery li:hover a.delete { display: block; }
+        #photo-gallery a.delete:hover { background-position: 0 -16px; }
+        #photo-list { height: auto; }
+        #photo-list .form-inline { margin-bottom: 7px; }
+        .delete-photo-widget { background: url('{{ asset('images/cancel.png') }}') no-repeat 0 0 transparent; display: inline-block; height: 16px; width: 16px; }
+        .delete-photo-widget:hover { background-position: 0 -16px; }
+
+    </style>
+    <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+{% endblock %}
+
+{% block body_content %}
+        {% include 'AppBundle:Dishes:header.html.twig' %}
+        {% include 'AppBundle:Dishes:navigation.html.twig' %}
+        {% set form = forms.dish %}
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+        {% set prototype = form.photos.vars.prototype %}
+        {% set prototype_source = '
+        <div class="row photo-item">
+            <div class="col-xs-3 form-inline">' ~
+            form_widget(prototype.image) ~ form_widget(prototype.file, {'attr': {'class': 'form-control'}}) ~
+            '</div>
+            <div class="col-xs-3 form-inline">' ~
+            form_label(prototype.title) ~ form_widget(prototype.title, {'attr': {'class': 'form-control'}}) ~
+            '</div>
+            <div class="col-xs-3 form-inline">' ~
+            form_label(prototype.alt) ~ form_widget(prototype.alt, {'attr': {'class': 'form-control'}}) ~
+            '</div>
+             <div class="col-xs-2 form-inline">' ~
+            form_label(prototype.main) ~'<br />'~ form_widget(prototype.main, {'attr': {'class': 'form-control'}}) ~
+            '</div>
+             <div class="col-xs-1 form-inline">
+            <a href="javascript:void();" class="delete-photo-widget" title="Удалить" ></a>
+            </div>
+        </div>'
+        %}
+        <div id="photos" data-prototype="{{ prototype_source|e }}">
+            {{ form_label(form.photos) }}
+            {% for photo in form.photos %}
+                <div class="form-group">
+                    <div class="row photo-item">
+                        <div class="col-xs-3 form-inline">
+                            {{ form_widget(photo.image) }}
+                            <img src="/images/products/{{dish.id|e }}/{{ photo.image.vars.value|e}}" style="max-height:100px;">
+                            {{ form_widget(photo.file, {'attr': {'class': 'form-control','style':'display:none;'}} )}}
+
+                        </div>
+                        <div class="col-xs-3 form-inline">
+                            {{ form_label(photo.title) }} <br />
+                            {{ form_widget(photo.title, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-xs-3 form-inline">
+                            {{ form_label(photo.alt) }}  <br />
+                            {{ form_widget(photo.alt, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-xs-2 form-inline">
+                            {{ form_label(photo.main) }} <br />
+                            {{ form_widget(photo.main, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-xs-1 form-inline">
+                            <a href="javascript:void(0);" class="delete-photo-widget" title="Удалить" ></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+            <span class="help-block">
+                <a href="javascript:void(0);" id="add-photo">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Добавить еще фото
+                </a>
+            </span>
+
+            <hr>
+            <em>Знаком <span class="text-danger">*</span> отмечены поля, обязательные для заполнения</em>
+            <hr>
+            <a href="{{ url('admin_dishes_index') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Назад
+            </a>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Сохранить изменения
+            </button>
+        {{ form_end(form) }}
+
+{% endblock %}
+
+{% block body_additions %}
+    {% set form = forms.dish %}
+    <script>
+        $(document).ready(function() {
+            var photos_count = {{ form.photos|length }};
+            $('#add-photo').click(function () {
+                var photos = $('#photos');
+                $('<div class="form-group"></div>').html(
+                        photos.attr('data-prototype').replace(/__name__/g, photos_count)
+                ).appendTo(photos);
+                photos_count++;
+            });
+            $(".delete-photo-widget").click(
+                    function () {
+                        $(this).parent().parent().remove();
+                        photos_count--;
+                    })
+        })
+    </script>
+{% endblock %}

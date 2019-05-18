@@ -1,0 +1,14 @@
+<ul class="nav nav-tabs">
+    {% if _step is not defined %}{% set _step = step %}{% endif %}
+    {% if ingridient is not empty %}
+        {% if _step == 1 %}<li class="active"><a href="javascript:void(0);">Общие данные</a></li>
+        {% else %}<li><a href="{{ url('admin_ingridients_edit', {'ingridient': ingridient.id, 'step': 1}) }}">Общие данные</a></li>
+        {% endif %}
+        {% if _step == 2 %}<li class="active"><a href="javascript:void(0);">Характеристики</a></li>
+        {% else %}<li><a href="{{ url('admin_ingridients_edit', {'ingridient': ingridient.id, 'step': 2}) }}">Характеристики</a></li>
+        {% endif %}
+    {% else %}
+        <li class="active"><a href="javascript:void(0);">Общие данные</a></li>
+        <li class="disabled"><a href="javascript:void(0);">Характеристики</a></li>
+    {% endif %}
+</ul>

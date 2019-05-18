@@ -1,0 +1,105 @@
+{% extends 'AppBundle::layout.html.twig' %}
+{% set dish=view.dish %}
+{% set step=3 %}
+
+{% block head_title %}Характеристики блюда{% endblock %}
+
+
+{% block head_additions %}
+
+{% endblock %}
+
+{% block body_content %}
+    {% include 'AppBundle:Dishes:header.html.twig' %}
+    {% include 'AppBundle:Dishes:navigation.html.twig' %}
+    <div class="page">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Параметр </th>
+                <th>Значение </th>
+                <th>Удаление </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for value in view.values %}
+                <tr>
+                    <td>
+                        {{ value.parameter.caption|e }}
+                    </td>
+                    <td>
+                        {{ value.value|e }}
+                    </td>
+                    <td>
+                        <a href="{{ url('admin_dishvalue_delete', {'dish':dish.id, 'value':value.id}) }}">Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr/>
+        <h2>Добавление храктеристики</h2>
+        {% set form = forms.dish %}
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+        {% set errors = form.parameter.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.parameter, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.parameter.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.parameter, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.value.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.value, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.value.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.value, {'attr': {'class': 'form-control', 'style':'height:200px;'}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить значение
+        </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block body_additions %}
+    {% set form = forms.dish %}
+    <script type="text/javascript">
+        var category = $("#{{ form.parameter.vars.id }}");
+        var product = $("#{{ form.value.vars.id }}");
+        var typeOptions = $("<div></div>");
+        product.find("option").clone().appendTo(typeOptions);
+
+        function onCategoryChange(callback) {
+            product.html("");
+            var defaultOption = typeOptions.find("option").first().clone();
+            defaultOption.clone().appendTo(product);
+
+            if (category.val()) {
+                product.find("option").first().html("Загрузка...");
+                $.ajax({
+                    cache: false,
+                    data: 'parameter=' + category.val(),
+                    dataType: "json",
+                    success: function(data) {
+                        product.find("option").first().remove();
+                        $.each(data, function(index, value) { typeOptions.find("option[value='" + value.id + "']").clone().appendTo(product); });
+                        if (typeof callback != 'undefined') {
+                            callback();
+                        }
+                    },
+                    type: "GET",
+                    url: $(location).attr("href")
+                });
+            }
+        }
+        category.change(onCategoryChange);
+    </script>
+{% endblock %}

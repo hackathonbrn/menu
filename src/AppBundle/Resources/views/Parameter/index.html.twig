@@ -1,0 +1,55 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block head_title %}Список характеристик{% endblock %}
+
+{% block head_additions %}
+{% endblock %}
+
+
+{% block body_content %}
+        <div class="page-header"><h1>Характеристики</h1></div>
+        <a href="{{ url('admin_parameters_add') }}" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить характеристику
+        </a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Для блюд</th>
+                <th>Для ингридиентов</th>
+                <th>Значений</th>
+                <th>Состояние</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for parameter in view.parameters %}
+                <tr>
+
+                    <td>
+                        <a href="{{ url('admin_parameters_edit', {'parameter': parameter.id, 'step':1}) }}">
+                            {{ parameter.caption|e }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if parameter.fordish %} Да {% else %} Нет {% endif %}
+                    </td>
+                    <td>
+                        {% if parameter.foringridient %} Да {% else %} Нет {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url('admin_parameters_edit', {'parameter': parameter.id, 'step':2}) }}">
+                        {{ parameter.values|length }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if parameter.active %} Отображается {% else %} скрыта {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p>
+
+        </p>
+
+{% endblock %}

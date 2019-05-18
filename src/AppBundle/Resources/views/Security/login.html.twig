@@ -1,0 +1,20 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block head_title %}Авторизация{% endblock %}
+
+{% block body_content %}
+    <div class="signin center-block">
+        {% set form = forms.login %}
+        {{ form_start(form, {'action': url('site_security_login_check'), 'attr': {'class': 'form-signin center-block', 'role': 'form'}}) }}
+            <h2 class="form-signin-heading">Вход на сайт</h2>
+            {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Имя пользователя', 'autofocus': true}}) }}
+            {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Пароль'}}) }}
+            {{ form_widget(form.rememberme) }}
+        <button type="submit" class="btn btn-lg btn-primary btn-block">
+             Войти
+        </button>
+        {{ form_end(form) }}
+        <p style="text-align:center;">Если у Вас нет учетной записи, то Вы можете <a href="#">Зарегистрироваться</a>.</p>
+        <p style="text-align:center;"> А если забыли пароль, то можете <a href="#">Восстановить доступ</a></p>
+    </div>
+{% endblock %}

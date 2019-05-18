@@ -1,0 +1,18 @@
+{% extends 'AppBundle:Mail:layoutmail.html.twig' %}
+
+{% block mailcontent %}
+    <tr>
+        <td style='text-align:left;'>
+            <br />
+            Только что на сайте <a href='http://authors.student-it.ru'>authors.student-it.ru</a> зарегистрировался новый пользователь.<br />
+        </td>
+    </tr>
+    <tr>
+        <td style='text-align:left;'>
+            <br />
+            При регистрации Указаны следующие данные: <br />
+            Имя пользователя: {{ login|e }}<br />
+            email: {{ email|e }}<br />
+        </td>
+    </tr>
+{% endblock %}

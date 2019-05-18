@@ -1,0 +1,71 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block head_title %}Список отзывов{% endblock %}
+
+{% block head_additions %}
+
+{% endblock %}
+
+
+{% block body_content %}
+
+        <div class="page-header"><h1>Отзывы</h1></div>
+        {% include 'AppBundle:Products:paginationproductscomments.html.twig' %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Имя</th>
+                <th>Почта</th>
+                <th>Оценка</th>
+                <th>Текст</th>
+                <th>Товар</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for review in view.reviews %}
+                <tr>
+                    <td>
+                        {{ review.createdAt|russian_date }}
+                    </td>
+                    <td>
+                       {{ review.author|e }}
+                    </td>
+                    <td>
+                        {{ review.email|e }}
+                    </td>
+                    <td>
+                        {{ review.ball|e }}
+                    </td>
+                    <td>
+                        {{ review.description|e }}
+                    </td>
+                    <td>
+                        <a href="{{ url('oneproduct', {'productcategory': review.product.category.alias|e, 'product':review.product.alias|e}) }}" target="_blank" title="Открыть товар на сайте">
+                            {{ review.product.caption|e }}
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" href="{{ url('admin_reviews_delete', {'review':review.id}) }}">Удалить</a>
+                        {#
+                        {% if comment.apply %}
+                        Подтвержден,
+                            {% if comment.active %}
+                                Отображается <a class="btn btn-danger" href="{{ url('admin_productcomment_hide', {'productcomment':comment.id}) }}">Скрыть</a>
+                            {% else %}
+                                Скрыт <a class="btn btn-warning" href="{{ url('admin_productcomment_show', {'productcomment':comment.id}) }}">Отобразить</a>
+                            {% endif %}
+                        {% else %}
+                        Не подтвержден
+                            <a class="btn btn-danger" href="{{ url('admin_productcomment_hide', {'productcomment':comment.id}) }}">Скрыть</a>
+                            <a class="btn btn-warning" href="{{ url('admin_productcomment_show', {'productcomment':comment.id}) }}">Отобразить</a>
+                        {% endif %}
+                        #}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include 'AppBundle:Products:paginationproductscomments.html.twig' %}
+{% endblock %}

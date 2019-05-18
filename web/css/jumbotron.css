@@ -1,0 +1,42 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /*padding-top: 50px;*/
+  /*padding-bottom: 20px;*/
+  /*margin-bottom: 94px;*/
+}
+
+#footer {
+  /*position: absolute;*/
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  /*height: 94px;*/
+  background-color: #000;
+  z-index: 1001;
+  margin-top: 20px;
+}
+
+#footer a {
+  color: #ccc;
+}
+
+#footer h5 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+}
+
+#footer a:hover {
+  color: #fff;
+}
+
+#content {
+  min-height:770px;
+}
+

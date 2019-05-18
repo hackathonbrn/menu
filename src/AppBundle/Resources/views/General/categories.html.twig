@@ -1,0 +1,32 @@
+{% extends 'AppBundle::sitelayout.html.twig' %}
+{% block head_title %}Список категорий файлов - {% endblock %}
+{% block head_style %}{% endblock %}
+
+{% block head_additions %}
+    <meta name="description" content="Список категорий и типов файлов в файловом хранилище студенческих файлов с возможностью он-лайн просмотра и скачивания без регистрации и смс">
+{% endblock %}
+
+{% block body_content %}
+    <h1 class="page-header">Список категорий файлов</h1>
+    {% set symbol='' %}
+    {% for category in view.categories  %}
+        {% if category.caption|slice(0, 1) !=symbol %}
+            {% if loop.index >1 %}</div>{% endif %}
+            <div class="row">
+                <h2>{{ category.caption|slice(0, 1)|upper }}</h2>
+                <div class="col-xs-4">
+                    <a href="{{ url('homepage',{'form_filter[category]':category.id|e}) }}">{{ category.caption|e }} (Всего: {{ category.products|length }})</a>
+                </div>
+            {% set symbol=(category.caption|slice(0, 1)) %}
+        {% else %}
+            <div class="col-xs-4">
+                <a href="{{ url('homepage',{'form_filter[category]':category.id|e}) }}">{{ category.caption|e }} (Всего: {{ category.products|length }})</a>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block body_additions %}
+
+{% endblock %}

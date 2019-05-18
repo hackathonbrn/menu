@@ -1,0 +1,13 @@
+/web/bundles/
+/web/images/files/
+/app/cache/*
+/app/access.log
+/app/config/parameters.yml
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+/app/phpunit.xml
+/build/
+/bin/
+/.idea
+/composer.phar

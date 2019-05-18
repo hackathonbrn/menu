@@ -1,0 +1,86 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block head_title %}Список блюд{% endblock %}
+
+{% block head_additions %}
+{% endblock %}
+
+
+{% block body_content %}
+        <div class="page-header"><h1>Блюда</h1></div>
+        {% set form = forms.filter %}
+        {{ form_start(form, {'attr': {'class': 'form-full'}}) }}
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    {{ form_label(form.caption, null, {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_widget(form.caption, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+                </td>
+                <td>
+                </td>
+
+                <td width="200px">
+                    <button type="submit" class="btn btn-success" style="min-width: 170px;">
+                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Применить Фильтр
+                    </button>
+                    <a href="{{ url('admin_dishes_index') }}" class="btn btn-default" style="margin-top:5px;width: 170px;">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Сбросить Фильтр
+                    </a>
+                </td>
+
+            </tr>
+
+        </table>
+        {{ form_end(form) }}
+        <p>
+            <a href="{{ url('admin_dishes_add') }}" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить блюдо
+            </a>
+        </p>
+
+
+    {% include 'AppBundle:Dishes:paginationdishes.html.twig' %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Масса,г</th>
+                <th>Стоимость</th>
+                <th>Отзывов</th>
+                <th>Состояние</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dish in view.dishes %}
+                <tr>
+
+                    <td>
+                        <a href="{{ url('admin_dishes_edit', {'dish': dish.id}) }}">
+                            {{ dish.caption|e }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ dish.chars.weight|number_format(2,' ',',')}}
+                    </td>
+                    <td>
+                        {{ dish.chars.price|price}}
+                    </td>
+                    <td>
+                        {{ dish.reviews|length}}
+                    </td>
+
+                    <td>
+                        {% if dish.active %}
+                        Опубликован
+                            <a class="btn btn-clear" href="{{ url('admin_dishes_unpublsh', {'dish':dish.id}) }}">Скрыть</a>
+                        {% else %}
+                        Не опубликован <a class="btn btn-clear" href="{{ url('admin_dishes_publsh', {'dish':dish.id}) }}">Опубликовать</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% include 'AppBundle:Dishes:paginationdishes.html.twig' %}
+
+{% endblock %}

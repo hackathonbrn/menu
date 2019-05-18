@@ -1,0 +1,86 @@
+{% extends 'AppBundle::layout.html.twig' %}
+{% set step=1 %}
+{% set parameter=view.parameter %}
+{% block head_title %}Атрибут товара{% endblock %}
+
+
+{% block head_additions %}
+    <style>
+        .page {
+            width:500px;
+        }
+    </style>
+{% endblock %}
+
+{% block body_content %}
+    <div class="page">
+        {% include 'AppBundle:Parameter:header.html.twig' %}
+        {% include 'AppBundle:Parameter:navigation.html.twig' %}
+        {% set form = forms.parameter %}
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+        {% set errors = form.caption.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.caption, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.caption.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.caption, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.priority.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.priority, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.priority.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.priority, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.fordish.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.fordish, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.fordish.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.fordish, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.foringridient.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.foringridient, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.foringridient.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.foringridient, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+        {% set errors = form.active.vars.errors %}
+        {% set class = 'form-group' ~ (errors|length > 0 ? ' has-error' : '') %}
+        <div class="{{ class }}">
+            {{ form_label(form.active, null, {'label_attr': {'class': 'control-label'}}) }}
+            {% if form.active.vars.required %}<span class="text-danger">*</span>{% endif %}
+            {{ form_widget(form.active, {'attr': {'class': 'form-control', 'autofocus': true}}) }}
+            {% if errors|length > 0 %}
+                {% for error in errors %}<span class="help-block text-danger">{{ error.message }}</span>{% endfor %}
+            {% endif %}
+        </div>
+            <hr>
+            <em>Знаком <span class="text-danger">*</span> отмечены поля, обязательные для заполнения</em>
+            <hr>
+            <a href="{{ url('admin_parameters_index') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Назад к списку
+            </a>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Сохранить изменения
+            </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block body_additions %}
+
+{% endblock %}

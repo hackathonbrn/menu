@@ -1,0 +1,24 @@
+<ul class="pagination pagination-sm">
+    {% set _first = view.page == 1 %}
+    {% set _last = view.page == view.pages %}
+    {% if _first %}
+        <li class="disabled"><span>&laquo;</span></li>
+    {% else %}
+        {% set _query = app.request.query.all|merge({'pagenum': view.page - 1}) %}
+        <li><a href="{{ url('admin_ingridients_index', _query) }}">&laquo;</a></li>
+    {% endif %}
+    {% for _page in 1..view.pages %}
+        {% if view.page == _page %}
+            <li class="active"><span>{{ _page|e }}</span></li>
+        {% else %}
+            {% set _query = app.request.query.all|merge({'pagenum': _page|e}) %}
+            <li><a href="{{ url('admin_ingridients_index', _query) }}">{{ _page|e }}</a></li>
+        {% endif %}
+    {% endfor %}
+    {% if _last %}
+        <li class="disabled"><span>&raquo;</span></li>
+    {% else %}
+        {% set _query = app.request.query.all|merge({'pagenum': view.page + 1}) %}
+        <li><a href="{{ url('admin_ingridients_index',_query) }}">&raquo;</a></li>
+    {% endif %}
+</ul>

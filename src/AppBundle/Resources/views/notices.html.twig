@@ -1,0 +1,44 @@
+{% if app.session.flashBag.has('notice.success') %}
+    {% for _notice in app.session.flashBag.get('notice.success') %}
+        <div class="alert alert-success alert-dismissable fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Закрыть</span>
+            </button>
+            {{ _notice|raw }}
+        </div>
+    {% endfor %}
+{% endif %}
+{% if app.session.flashBag.has('notice.info') %}
+    {% for _notice in app.session.flashBag.get('notice.info') %}
+        <div class="alert alert-info alert-dismissable fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Закрыть</span>
+            </button>
+            {{ _notice|raw }}
+        </div>
+    {% endfor %}
+{% endif %}
+{% if app.session.flashBag.has('notice.warning') %}
+    {% for _notice in app.session.flashBag.get('notice.warning') %}
+        <div class="alert alert-warning alert-dismissable fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Закрыть</span>
+            </button>
+            {{ _notice|raw }}
+        </div>
+    {% endfor %}
+{% endif %}
+{% if app.session.flashBag.has('notice.error') %}
+    {% for _notice in app.session.flashBag.get('notice.error') %}
+        <div class="alert alert-danger alert-dismissable fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Закрыть</span>
+            </button>
+            {{ _notice|raw }}
+        </div>
+    {% endfor %}
+{% endif %}
