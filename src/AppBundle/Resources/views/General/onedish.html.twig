@@ -1,0 +1,79 @@
+{% extends 'AppBundle::sitelayout.html.twig' %}
+{% set dish=view.dish %}
+{% block head_title %}
+
+{% endblock %}
+
+{% block head_additions %}
+
+    <meta name="description" content="" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+
+
+
+
+{% block body_content %}
+    <div class="image-fon">
+        <div id="mask-white"></div>
+    </div>
+    <div class="page-header text-center"><h1> {{ dish.caption|e }}: Рецепт, отзывы, фотографии</h1></div>
+
+    <div class="row">
+        <div class="col-sm-6 col-xs-12">
+            <div class="text-center mainimage"><img src="{% include '@App/General/mainimage.html.twig' with {'dish':dish} %}"></div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div class="paramheader">Ингридиенты:</div>
+            {% for reciept in dish.reciepts %}
+                <div><b>{{ reciept.ingridient.caption|e}}:</b> {{ reciept.quantity|number_format(1,',', ' ') }} г.</div>
+            {% endfor %}
+            <div  class="paramheader">Характеристики:</div>
+            {% for parametervalue in view.visibleparametervalues %}
+                <div><b>{{ parametervalue.parameter.caption|e}}:</b> {{ parametervalue.value|e }}</div>
+            {% endfor %}
+            <div  class="paramheader">Показатели:</div>
+            {% set chars=dish.chars %}
+            <div><b>Калорий:</b> {{ chars.cal|e }}</div>
+            <div><b>Белков:</b> {{ chars.protein|e }}</div>
+            <div><b>Жиров:</b> {{ chars.fat|e }}</div>
+            <div><b>Углеводов:</b> {{ chars.carbo|e }}</div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" class="day-tab" href="#description" >Рецепт приготовления</a></li>
+            <li ><a data-toggle="tab" class="day-tab" href="#comments" >Комментарии пользователей</a></li>
+            <li ><a data-toggle="tab" class="day-tab" href="#other" >Дополнительно</a></li>
+        </ul>
+        <div class="tab-content" >
+                <div id="description" class="tab-pane fade in active">
+                    <div class="daymenu">
+                            <div class="row no-margins">
+                    {{ dish.description|raw }}
+                            </div>
+                    </div>
+                </div>
+                <div id="comments" class="tab-pane fade">
+                    <div class="daymenu">
+                        <div class="row no-margins">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="other" class="tab-pane fade ">
+                    <div class="daymenu">
+                        <div class="row no-margins">
+
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+
+<script>
+
+</script>
+
+{% endblock %}

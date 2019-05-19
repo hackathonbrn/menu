@@ -216,6 +216,8 @@ class Dish extends AbstractEntity
         }
     }
 
+  
+
     /**
      * @return ImageUpload[]|ArrayCollection
      */
@@ -282,8 +284,8 @@ class Dish extends AbstractEntity
 
 
     /**
-     * @return array
-     */
+ * @return array
+ */
     public function getChars()
     {
         $price = 0;
@@ -319,7 +321,9 @@ class Dish extends AbstractEntity
             'count'=>$count,
         );
     }
+
     
+
     
 
 }

@@ -23,6 +23,6 @@ class Dish1FormType extends AbstractEntityFormType
                     'expanded' => true
                 ))
                 ->add('active', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType', array('label' => 'Активен?', 'required' => false))
-                ->add('timecook', 'Symfony\Component\Form\Extension\Core\Type\IntegerType', array('label' => 'Время готови (мин)', 'required' => true));
+                ->add('timecook', 'Symfony\Component\Form\Extension\Core\Type\IntegerType', array('label' => 'Время готовки (мин)', 'required' => true));
     }
 } 

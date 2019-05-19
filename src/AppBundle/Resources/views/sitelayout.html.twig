@@ -27,7 +27,17 @@
     {% endblock %}
 
    <style>
-        {% block head_style %}{% endblock %}
+       {% if app.request.get('_route')!='homepage' %}
+       body {
+           background-image: url({{ asset("images/background-2.png") }});
+           background-repeat: repeat;
+       }
+
+       {% endif %}
+
+        {% block head_style %}
+
+        {% endblock %}
    </style>
     {% block head_additions %}{% endblock %}
 </head>

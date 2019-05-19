@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block head_additions %}
-
+    {% set whitepanel=true %}
     <meta name="description" content="">
 {% endblock %}
 
@@ -15,51 +15,59 @@
 {% block body_content %}
     <div class="row section">
         <div class="image-fon-main">
-
+            <div id="mask"></div>
         </div>
         <div class="main-header text-center"><h1> Меню всегда найду</h1></div>
+        <div class="row text-center" style="margin-bottom:25%"><a href="{{ url('createmenu') }}" class="btn btn-warning btn-lg">Попробовать сейчас</a></div>
     </div>
     <div class="row section">
-        <h2>Автоматическое создание</h2>
-        <div class="col-xs-12">Плана питания на неделю</div>
-        <div class="col-xs-12">Это самый простой иэффективный способ организовать правильное питение для всей семьи.
+        <div class="col-xs-12 with-back">
+            Автоматическое создание
+        </div>
+        <div class="col-xs-12 with-out-back">Плана питания на неделю</div>
+        <div class="col-xs-12 text-main">
+            <img src="{{ asset('images/limon.png') }}" class="mainimg" >
+            <div class="text">Это самый простой и эффективный способ организовать правильное питение для всей семьи.
              С помощью нажатия всего одной кнопки вы получите уникльное мен питания с учетом
-             ваших вкусовых предпочтений, и все это за считанные секунды, прямо "онлайн"!!</div>
-        <div class="col-xs-12"><a href="{{ url('createmenu') }}" class="btn btn-warning">Сконструировать меню на неделю</a></div>
+             ваших вкусовых предпочтений, и все это за считанные секунды, прямо "онлайн"!!
+            </div>
+
+        </div>
+        <div class="col-xs-12 text-center"><a href="{{ url('createmenu') }}" class="btn btn-warning btn-lg">Сконструировать меню на неделю</a></div>
     </div>
 
     <div class="row section">
-        <h2>Наши преимущества</h2>
+        <div class="col-xs-12 with-out-back text-center header-3">Наши преимущества</div>
         <div class="row">
             <div class="col-xs-6 col-sm-4">
-                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
-                <div class="title">Больше свободного времени</div>
-                <div class="description">Больше не нужно составлять меню питания и списки покупок</div>
+                <div class="featureimage"><img src="{{ asset('images/ico-5.png') }}"></div>
+                <div class="title-wow ">Больше свободного времени</div>
+                <div class="description-wow">Больше не нужно составлять меню питания и списки покупок</div>
             </div>
             <div class="col-xs-6 col-sm-4">
-                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
-                <div class="title">Экономия времени</div>
-                <div class="description">Больше не нужно составлять меню питания и списки покупок</div>
+                <div class="featureimage"><img src="{{ asset('images/ico-6.png') }}"></div>
+                <div class="title-wow text-center">Экономия времени</div>
+                <div class="description-wow">Больше не нужно составлять меню питания и списки покупок</div>
             </div>
             <div class="col-xs-6 col-sm-4">
-                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
-                <div class="title">Отсутствие пищевых отходов</div>
-                <div class="description">Больше не нужно составлять меню питания и списки покупок</div>
+                <div class="featureimage"><img src="{{ asset('images/ico-2.png') }}"></div>
+                <div class="title-wow ">Отсутствие пищевых отходов</div>
+                <div class="description-wow">Больше не нужно составлять меню питания и списки покупок</div>
             </div>
             <div class="col-xs-6 col-sm-4">
-                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
-                <div class="title">Учитываем остатки</div>
-                <div class="description">Помогаем испьзовать имеющиеся "в холодильнике" продукты</div>
+                <div class="featureimage"><img src="{{ asset('images/ico-3.png') }}"></div>
+                <div class="title-wow ">Учитываем остатки</div>
+                <div class="description-wow">Помогаем испьзовать имеющиеся "в холодильнике" продукты</div>
             </div>
             <div class="col-xs-6 col-sm-4">
-                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
-                <div class="title">Используем ваши предпочтения</div>
-                <div class="description">Учитываем аллергены и особенности вашео питания</div>
+                <div class="featureimage"><img src="{{ asset('images/ico-4.png') }}"></div>
+                <div class="title-wow ">Используем ваши предпочтения</div>
+                <div class="description-wow">Учитываем аллергены и особенности вашео питания</div>
             </div>
             <div class="col-xs-6 col-sm-4">
-                <div class="featureimage"><img src="{{ asset('images/products/1/a4d6ba28099bf45c22f3ada3cd237ee039d5007b.jpg') }}"></div>
-                <div class="title">Готовые меню в один клик, быстро и просто</div>
-                <div class="description">Мы берем на себя заботу о вашем рационе питания</div>
+                <div class="featureimage"><img src="{{ asset('images/ico-1.png') }}"></div>
+                <div class="title-wow ">Готовые меню в один клик, быстро и просто</div>
+                <div class="description-wow">Мы берем на себя заботу о вашем рационе питания</div>
             </div>
 
         </div>

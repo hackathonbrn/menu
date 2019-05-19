@@ -81,6 +81,11 @@ class Ingridient extends AbstractEntity
         parent::__construct();
         $this->parametervalues = new ArrayCollection();
         $this->active=true;
+        $this->cal=0;
+        $this->carbo=0;
+        $this->protein=0;
+        $this->fat=0;
+        $this->price=0;
 
     }
 

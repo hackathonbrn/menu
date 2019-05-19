@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Dish;
 use Doctrine\ORM\Query;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -67,7 +68,7 @@ class DefaultController extends InitializableController
         //запрашиваем приемы пищи для вывода на форме
         $timeeats=$this->getRepository('Timeeat')->createQueryBuilder('t')
             ->where('t.active = true')
-            ->orderBy('t.caption')
+            ->orderBy('t.priority', 'DESC')
             ->getQuery()->getResult();
         
 
@@ -82,9 +83,10 @@ class DefaultController extends InitializableController
         }
         $dishes=array();
         $selecttimeeats=array();
+        $resultdishes=array();
         $filter_attrs=null;
         $filter_chars=null;
-        
+        //если фильтр прислали, то формируем
         if (!(empty($filter_timeeats))) {
             foreach ($filter_timeeats as $keytime =>$filter_timeaet ) {
                 $timeeat=$this->getRepository('Timeeat')->findOneBy(array('id'=>$keytime));
@@ -93,7 +95,8 @@ class DefaultController extends InitializableController
                 $qb  = $this->getRepository('Dish')->createQueryBuilder('dd')
                     ->select('dd')
                     ->leftJoin('dd.timeeats','te')
-                    ->where('te.id = '.$keytime);
+                    ->where('te.id = '.$keytime)
+                    ->orderBy('te.priority', 'DESC');
 
                 //характеристики, по которым нужно фильтровать
                 $filter_chars=$this->request->get('chars');
@@ -121,27 +124,68 @@ class DefaultController extends InitializableController
                     }
                     $qb->andWhere($qb->expr()->notIn('dd.id', $qb2->getDQL()));
                 }
-
+                $qb->setMaxResults(10); //не более 10 блюд
                 $dishesquery  = $qb->getQuery();
                 $dishes[$keytime]=$dishesquery->getResult();
             }
+            //теперь пересобираем меню, пробегаясь по нему, чтобы раскидать блюда в нужном порядке, скинув повторки в конец списков
+            $resultdishes=array(); //итоговый массив блюд по дням
+            $alldish=array(); //массив со всеми блюдами (чтобы не дублировать)
+            $resultids=array(); //массив для айдишников
+            foreach ($dishes as $key=>$onedaydish) {
+                $tempday=array(); //массив на день
+                /** @var Dish $dish */
+                foreach ($onedaydish as $dish) {
+                    //если уже есть, то в конец массива
+                    if (in_array($dish->getId(),$resultids)) {
+                        array_push($tempday,$alldish[$dish->getId()]);
+                    }
+                    //иначе - в начало
+                    else {
+                        array_unshift($tempday,$dish );
+                        $alldish[$dish->getId()]=$dish;
+                    }
+                }
+                $resultdishes[$key]=$tempday;
+                unset($tempday);
+            }
+            unset($alldish);
+
         }
-
-
-
 
         //выбранные приемы пищи для формирования БД
         $this->view['selecttimeeats']=$selecttimeeats;
         $this->view['selecteddays']=$selecteddays;
         $this->view['timeeats']=$timeeats;
-        $this->view['dishes']=$dishes;
+        $this->view['dishes']=$resultdishes;
         //рендерим шаблон
         $this->view['params']=$params;
         $this->view['chars']=$chars;
         return $this->render('AppBundle:General:createmenu.html.twig');
     }
+    /**
+     * @param Dish $dish
+     * @return RedirectResponse|Response
+     * @Config\Route("/dish/{dish}", name = "onedish")
+     * @Config\ParamConverter("dish", options = {"mapping": {"dish": "id"}})
+     */
+    public function onedishAction(Dish $dish)
+    {
+        //запрашиваем приемы пищи для вывода на форме
+        $visibleparametervalues=$this->getRepository('ParameterValue')->createQueryBuilder('pv')
+            ->leftJoin('pv.parameter','p')
+            ->leftJoin('pv.dishes', 'd')
+            ->where('d.id = :dish')
+            ->andWhere('p.visiblepage = true')
+            ->setParameters(array('dish'=>$dish))
+            ->orderBy('p.priority', 'DESC')
+            ->getQuery()->getResult();
 
-
+        $this->view['visibleparametervalues']=$visibleparametervalues;
+        $this->view['dish']=$dish;
+        return $this->render('AppBundle:General:onedish.html.twig');
+        
+    }
 
 
 

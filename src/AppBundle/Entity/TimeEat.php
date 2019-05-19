@@ -42,11 +42,24 @@ class TimeEat extends AbstractEntity
      */
     protected $dishmenus;
 
+    /**
+     * @var integer
+     * @ORM\Column(name = "priority", type = "integer", nullable=true)
+     */
+    protected $priority;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name = "defaultactive", type = "boolean")
+     */
+    protected $defaultactive;
+
     public function __construct()
     {
         parent::__construct();
         $this->dishes = new ArrayCollection();
         $this->dishmenus = new ArrayCollection();
+        $this->defaultactive = false;
 
     }
     
@@ -114,6 +127,38 @@ class TimeEat extends AbstractEntity
     public function setDishmenus($dishmenus)
     {
         $this->dishmenus = $dishmenus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param int $priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDefaultactive()
+    {
+        return $this->defaultactive;
+    }
+
+    /**
+     * @param boolean $defaultactive
+     */
+    public function setDefaultactive($defaultactive)
+    {
+        $this->defaultactive = $defaultactive;
     }
 
 

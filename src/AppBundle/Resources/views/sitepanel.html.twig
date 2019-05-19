@@ -12,18 +12,34 @@
             </button>
 
         </div>
-        <div id="navbar" class="navbar-collapse collapse" style="height: 1px;">
+        <div id="navbar" class="navbar-collapse collapse " style="height: 1px;">
 
-            <ul class="nav navbar-nav navbar-right navbar-buttons">
-                    <a href="{{ url('createmenu') }}" class="btn btn-warning"> Конструктор меню на неделю</a>
-                    <a href="#" class="btn btn-warning"> Каталог блюд</a>
+            <ul class="nav navbar-nav navbar-left {% if app.request.get('_route')!='homepage' %}navbar-my-inverse{% endif %}">
+                <li> <a  href="{{ url('homepage') }}" >Главная страница</a></li>
+                    <li  ><a href="{{ url('createmenu') }}"> Конструктор меню</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right {% if app.request.get('_route')!='homepage' %}navbar-my-inverse{% endif %}">
                 {% if app.user %}
-                    <a href="{{ url('site_security_profile') }}" title="Управление профилем" class="btn btn-warning"> {{ app.user.userfio|e }}</a>
-                    <a href="{{ url('site_security_logout') }}" title="Выход с сайта" class="btn btn-warning"> Выйти</a>
+                    <li class="dropdown" style="display:inline-block;">
+                        <a href="#" title="Личный кабинет" class="dropdown-toggle" data-toggle="dropdown">
+                            Личный кабинет <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Мои меню</a></li>
+                            <li><a href="#">Мои блюда</a></li>
+                            <li><a href="{{ url('site_security_profile') }}">Мои данные</a></li>
+                            <li><a href="{{ url('admin_dishes_index') }}">Админка</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ url('site_security_logout') }}" title="Выход"> Выйти</a></li>
                 {% else %}
-                    <a href="{{ url('site_security_login') }}" title="Вход" class="btn btn-warning"> Вход</a>
+                    <li><a href="{{ url('site_security_login') }}" title="Вход"> Регистрация</a></li>
+                    <li> <a href="{{ url('site_security_login') }}" title="Вход"> Вход</a></li>
                 {% endif %}
             </ul>
+
+
+
 
         </div>
     </div>

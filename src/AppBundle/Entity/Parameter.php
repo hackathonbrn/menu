@@ -73,6 +73,12 @@ class Parameter extends AbstractEntity
      */
     protected $visiblecaption;
 
+    /**
+     * @var boolean
+     * @ORM\Column(name = "visiblepage", type = "boolean")
+     */
+    protected $visiblepage;
+
     public function __construct()
     {
         parent::__construct();
@@ -81,6 +87,7 @@ class Parameter extends AbstractEntity
         $this->active=true;
         $this->visible = true;
         $this->negative=false;
+        $this->visiblepage = false;
     }
 
     /**
@@ -225,6 +232,22 @@ class Parameter extends AbstractEntity
     public function setNegative($negative)
     {
         $this->negative = $negative;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVisiblepage()
+    {
+        return $this->visiblepage;
+    }
+
+    /**
+     * @param boolean $visiblepage
+     */
+    public function setVisiblepage($visiblepage)
+    {
+        $this->visiblepage = $visiblepage;
     }
 
 

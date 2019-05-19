@@ -16,6 +16,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class UserMenu extends AbstractEntity
 {
+    /**
+     * @var ArrayCollection|DishMenu[]
+     * @ORM\OneToMany(targetEntity = "AppBundle\Entity\DishMenu", mappedBy = "usermenu", cascade = {"persist", "remove"})
+     */
+    protected $dishmenus;
     
     /**
      * @var string

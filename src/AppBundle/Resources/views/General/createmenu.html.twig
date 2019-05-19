@@ -13,10 +13,10 @@
 
 
 {% block body_content %}
-    <div class="image-fon-main">
-
+    <div class="image-fon">
+        <div id="mask-white"></div>
     </div>
-    <div class="page-header text-center text-white"><h1> Конфигуратор меню</h1></div>
+    <div class="page-header text-center"><h1> Конфигуратор меню</h1></div>
     <!-- форма для ввод параметров -->
     <div class="row">
     <!--фильтр-->
@@ -52,9 +52,9 @@
                 <div id="{{ mode }}" class="collapse {% if expanded %}in{% endif %}" {% if expanded %} aria-expanded="true" {% endif %}>
                     <div class="values">
                 {% for timeeat in view.timeeats %}
-                    <div class="value product-layout-bordered {% if app.request.get(mode)[timeeat.id]|default(false) or expanded is same as(false) %} active  {% endif %} green">
+                    <div class="value product-layout-bordered {% if app.request.get(mode)[timeeat.id]|default(false) or (expanded is same as(false) and timeeat.defaultactive) %} active  {% endif %} green">
                         <label for="timeeat[{{ timeeat.id|e }}]" >
-                            <input id="timeeat[{{ timeeat.id|e }}]" type="checkbox" name="timeeat[{{ timeeat.id|e }}]" class="filter-checkbox" {% if app.request.get(mode)[timeeat.id]|default(false) or expanded is same as(false) %} checked {% endif %} >
+                            <input id="timeeat[{{ timeeat.id|e }}]" type="checkbox" name="timeeat[{{ timeeat.id|e }}]" class="filter-checkbox" {% if app.request.get(mode)[timeeat.id]|default(false) or (expanded is same as(false) and timeeat.defaultactive) %} checked {% endif %} >
                             <span class="value-title">{{ timeeat.caption|e }}</span>
                         </label>
                     </div>
@@ -89,42 +89,44 @@
             {% include '@App/General/filter-list.html.twig' with {'items':view.params, 'mode':'attrs' } %}
             {% include '@App/General/filter-list.html.twig' with {'items':view.chars, 'mode':'chars' } %}
             <div class="filter-item">
-                <button type="submit" id="filter_btn" class="btn btn-success btn-lg" style="width:100%;">Сформировать</button>
-                <button type="reset" id="filter_reset" class="btn btn-default btn-lg" style="width:100%;">Сбросить</button>
+                <button type="submit" id="filter_btn" class="btn btn-warning btn-lg" style="width:100%;">Сформировать</button>
+                <a id="filter_reset" class="btn btn-link btn-lg" style="width:100%;">Сбросить</a>
             </div>
         </form>
     </div>
     <div class="col-lg-9 col-md-8 col-sm-12">
-        <ul class="nav nav-tabs">
+        <ul id="myTab" class="nav nav-tabs">
             {% for selectday in view.selecteddays %}
                 <li {% if loop.index==1 %}class="active"{% endif %}><a data-toggle="tab" class="day-tab" href="#daypanel{{ selectday|e }}" >{{ selectday|day }}</a></li>
             {% endfor %}
         </ul>
         <div class="tab-content">
 
-
-
             {% for selectday in view.selecteddays %}
-                <div id="daypanel{{ selectday|e }}" class="tab-pane fade {% if loop.index==1 %}in active{% endif %}">
-                    {% for selecttimeeat in view.selecttimeeats %}
+                <div id="daypanel{{ selectday|e }}" class="tab-pane fade in {% if loop.index==1 %} active{% endif %}">
                     <div class="daymenu">
-                        <div class="row">
+                    {% for selecttimeeat in view.selecttimeeats %}
+                        <div class="row no-margins">
                             <div class="oneeat">
-                                <div class="col-xs-3 timeeat-outer"><div class="timeeat">{{ selecttimeeat.caption|e }}</div></div>
+                                <div class="col-xs-2 timeeat-outer"><div class="timeeat">{{ selecttimeeat.caption|e }}</div></div>
                                 {% if view.dishes|default(false) %}
-                                    <div class="col-xs-9 dishes">
+                                    <div class="col-xs-10 dishes">
                                         <div  class="row owl-carousel owl-theme" id="carousel{{ selectday|e }}-{{ selecttimeeat.id|e }}" data-startposition="{{ selectday|e }}">
                                             {% set i=1 %}
                                             {% for dish in view.dishes[selecttimeeat.id] %}
                                                     <div class="item "  >
                                                         <div class="row row-flex dish ">
                                                             <div class="col-xs-12 col-sm-6">
-                                                                <div class="imagedish"><img src="{% include '@App/General/mainimage.html.twig' with {'dish':dish} %}"></div>
+                                                                <div class="imagedish text-center"><img src="{% include '@App/General/mainimage.html.twig' with {'dish':dish} %}"></div>
                                                             </div>
                                                             <div class="col-xs-12 col-sm-6">
-                                                                <div class="titledish"><h3>{{ dish.caption|e }}</h3></div>
+                                                                <div class="titledish"><h3><a target="_blank" href="{{ url('onedish', {'dish':dish.id|e}) }}">{{ dish.caption|e }}</a></h3></div>
                                                                 <div class="desciptiondish">
-                                                                    <p>Каллорий:{{ dish.chars.cal|e }}</p>
+                                                                    {% for parametervalue in dish.parametervalues %}
+                                                                        {% if parametervalue.parameter.visiblepage %}
+                                                                        <div><b>{{ parametervalue.parameter.caption|e}}:</b> {{ parametervalue.value|e }}</div>
+                                                                        {% endif %}
+                                                                    {% endfor %}
                                                                 </div>
                                                                 <div class="buttons"></div>
                                                             </div>
@@ -146,18 +148,17 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
                     {% endfor %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
+        {% if view.selecteddays|default(false) %}
+        <div class="col-xs-12 text-center" style="margin-top:30px;margin-bottom:30px;">
+            <a class="btn btn-warning btn-lg">Сохранить меню</a>
+        </div>
+        {% endif %}
     </div>
-
-
-
-
-    <div class="row">
-
     </div>
 
 
@@ -165,8 +166,6 @@
 
     $("#filter_reset").on('click', function(e){
         $(this).parent().parent().find('div').removeClass('active');
-        $('#price-range').slider('refresh', { useCurrentValue: true });
-        onChangeFilter(null);
     });
 
 
@@ -189,8 +188,6 @@
         }
         onChangeFilter($(this));
     });
-
-
 
 
 </script>
